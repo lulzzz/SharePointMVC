@@ -51,7 +51,7 @@ namespace SharePointMVC.SPWork
         }
 
         //TODO: Get all lists and return them.
-        public void GetAllSharePointLists()
+        public List<SpList> GetAllSharePointLists()
         {
             List<SpList> retList = new List<SpList>();
 
@@ -66,9 +66,15 @@ namespace SharePointMVC.SPWork
                 if (list.BaseTemplate == 100)
                 {
                     //TODO: Add all lists to an object that contains the title and maybe type?
-                    
+                    retList.Add(new SpList
+                    {
+                        Title = list.Title,
+                        Type = list.BaseType.ToString()
+                    });
                 }
             }
+
+            return retList;
         }
         
 

@@ -1,7 +1,11 @@
-﻿
+﻿@model IEnumerable<SharePointMVC.Models.SpList>
 @{
     ViewBag.Title = "AllLists";
 }
 
 <h2>AllLists</h2>
 
+@foreach (var p in Model)
+{
+    <p>@p.Title</p>
+}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SharePointMVC.Models;
 using SharePointMVC.SPWork;
 
 namespace SharePointMVC.Controllers
@@ -85,7 +86,11 @@ namespace SharePointMVC.Controllers
             _sPC = (SharePointConnect)Session["SPC"];
             
             //TODO: Get all lists here in a variable.
-            return View();
+            List<SpList> model = _sPC.GetAllSharePointLists();
+
+            var x = model;
+
+            return View(model);
         }
     }
 }
