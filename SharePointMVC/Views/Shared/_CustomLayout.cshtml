@@ -11,17 +11,19 @@
 
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body id="">
-    
-    <h1>_CustomLayout</h1>
+<body>
+    <form action="/SharePoint/Logout" method="post">
+        <input type="submit" value="Logout" class="btn btn-danger" />
+    </form>
+
 
 @RenderBody()
 
 
 
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@RenderSection("scripts", required: false)
 </body>
 </html>

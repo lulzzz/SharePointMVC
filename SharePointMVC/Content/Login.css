@@ -42,8 +42,8 @@
     text-align: left; margin-bottom:30px;
 }
 .botto-text {
-    color: #ffffff;
-    font-size: 14px;
+    color: red;
+    font-size: 16px;
     margin: auto;
 }
 .login-form .btn.btn-primary.reset {
