@@ -25,6 +25,16 @@ namespace SharePointMVC
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            //Custom StyleBundles
+            bundles.Add(new StyleBundle("~/LoginStyle").Include(
+                "~/Content/bootstrap.css",
+                "~/Content/LoginIndex.css"));
+
+            //Custom ScriptBundles
+            bundles.Add(new ScriptBundle("~/LoginScript").Include(
+                "~/Scripts/LoginIndex.js"
+                ));
         }
     }
 }

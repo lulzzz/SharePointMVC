@@ -5,7 +5,9 @@
 
 <h2>AllLists</h2>
 
-@foreach (var p in Model)
+@foreach (var item in Model)
 {
-    <p>@p.Title</p>
+    <p>Title: @item.Title</p>
+    <p>Type: @item.Type</p>
+    <br />
 }

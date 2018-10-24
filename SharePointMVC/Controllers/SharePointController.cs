@@ -22,24 +22,37 @@ namespace SharePointMVC.Controllers
             return View();
         }
 
+        public bool CheckSession()
+        {
+            if (Session["SPC"] == null)
+            {
+                return false;
+            }
+
+            _sPC = (SharePointConnect)Session["SPC"];
+            return true;
+        }
+
 
         [HttpPost]
         public ActionResult Login(string email, string password)
         {
+            /*
+            if (email == "")
+            {
+                TempData["LoginFail"] = "Failed to login";
+                return RedirectToAction("LoginIndex");
+            }
+            */
 
             _sPC = new SharePointConnect(email,password);
-            bool checkLogin = _sPC.SaveContext();
-
-            if (checkLogin)
+            if (!_sPC.SaveContext())
             {
-                Session["SPC"] = _sPC;
-                return RedirectToAction("Index");
+                TempData["LoginFail"] = "Failed to login";
+                return RedirectToAction("LoginIndex");
             }
-            TempData["LoginFail"] = "Failed to login";
-            return RedirectToAction("LoginIndex");
-
-
-
+            Session["SPC"] = _sPC;
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -54,42 +67,39 @@ namespace SharePointMVC.Controllers
         
         public ActionResult Index()
         {
-            if (Session["SPC"] == null)
+            if (!CheckSession())
             {
                 return RedirectToAction("LoginIndex");
             }
             return View();
         }
 
+        
 
         public ActionResult WebTitle()
         {
-            if (Session["SPC"] == null)
+           
+            if (!CheckSession())
             {
                 return RedirectToAction("LoginIndex");
             }
-
-            _sPC = (SharePointConnect)Session["SPC"];
 
             var title = _sPC.GetWebTitle();
             ViewBag.test = title;
             return View();
+
+            
         }
 
         public ActionResult AllLists()
         {
-            if (Session["SPC"] == null)
+            if (!CheckSession())
             {
                 return RedirectToAction("LoginIndex");
             }
 
-            _sPC = (SharePointConnect)Session["SPC"];
-            
-            //TODO: Get all lists here in a variable.
             List<SpList> model = _sPC.GetAllSharePointLists();
-
-            var x = model;
-
+            
             return View(model);
         }
     }
