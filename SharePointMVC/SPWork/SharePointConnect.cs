@@ -11,13 +11,15 @@ namespace SharePointMVC.SPWork
     public class SharePointConnect
     {
         private string _url = "https://anchory.sharepoint.com/sites/Developersite";
-        private ClientContext _context;
+        private readonly ClientContext _context;
 
         public SharePointConnect(string email, string password)
         {
-            SecureString securePassword = GetPasswordFromConsoleInput(password);
-            _context = new ClientContext(_url);
-            _context.Credentials = new SharePointOnlineCredentials(email, securePassword);
+            SecureString securePassword = ConvertPasswordToSecureString(password);
+            _context = new ClientContext(_url)
+            {
+                Credentials = new SharePointOnlineCredentials(email, securePassword)
+            };
         }
 
 
@@ -78,7 +80,7 @@ namespace SharePointMVC.SPWork
         }
         
 
-        public SecureString GetPasswordFromConsoleInput(string password)
+        public SecureString ConvertPasswordToSecureString(string password)
         {
             SecureString securePassword = new SecureString();
             foreach (char c in password) securePassword.AppendChar(c);

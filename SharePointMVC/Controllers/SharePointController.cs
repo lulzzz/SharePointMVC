@@ -84,11 +84,9 @@ namespace SharePointMVC.Controllers
                 return RedirectToAction("LoginIndex");
             }
 
-            var title = _sPC.GetWebTitle();
-            ViewBag.test = title;
-            return View();
-
+            WebTitleViewModel viewModel = new WebTitleViewModel {WebTitle = _sPC.GetWebTitle()};
             
+            return View(viewModel);
         }
 
         public ActionResult AllLists()

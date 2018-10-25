@@ -198,6 +198,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\SpList.cs" />
+    <Compile Include="Models\WebTitleViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SPWork\SharePointConnect.cs" />
   </ItemGroup>
