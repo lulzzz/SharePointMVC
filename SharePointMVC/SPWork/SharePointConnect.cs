@@ -79,6 +79,20 @@ namespace SharePointMVC.SPWork
 
             return retList;
         }
+
+        public void GetSpecificList(string listname)
+        {
+            var web = _context.Web;
+            var list = _context.Web.GetList(listname);
+
+            _context.Load(web);
+            _context.Load(list);
+            _context.ExecuteQuery();
+
+            
+            //TODO: Get list items and map them.
+
+        }
         
 
         public SecureString ConvertPasswordToSecureString(string password)

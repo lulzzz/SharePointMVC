@@ -37,8 +37,8 @@ namespace SharePointMVC.Controllers
         [HttpPost]
         public ActionResult Login(string email, string password, string url)
         {
-            
-            _sPC = new SharePointConnect(email,password, url);
+
+            _sPC = new SharePointConnect(email, password, url);
             if (!_sPC.SaveContext())
             {
                 TempData["LoginFail"] = "Failed to login";
@@ -57,7 +57,7 @@ namespace SharePointMVC.Controllers
             return RedirectToAction("LoginIndex");
         }
 
-        
+
         public ActionResult Index()
         {
             if (!CheckSession())
@@ -67,18 +67,18 @@ namespace SharePointMVC.Controllers
             return View();
         }
 
-        
+
 
         public ActionResult WebTitle()
         {
-           
+
             if (!CheckSession())
             {
                 return RedirectToAction("LoginIndex");
             }
 
-            WebTitleViewModel viewModel = new WebTitleViewModel {WebTitle = _sPC.GetWebTitle()};
-            
+            WebTitleViewModel viewModel = new WebTitleViewModel { WebTitle = _sPC.GetWebTitle() };
+
             return View(viewModel);
         }
 
@@ -90,8 +90,26 @@ namespace SharePointMVC.Controllers
             }
 
             List<SpListViewModel> model = _sPC.GetAllSharePointLists();
-            
+
             return View(model);
+        }
+
+        public ActionResult ListDetails()
+        {
+
+            if (!CheckSession())
+            {
+                return RedirectToAction("LoginIndex");
+            }
+
+            /*
+             * TODO: 1. Change "Listone" to a parameter from ListDetails.
+             * TODO: 2. Store the data from the list in a viewmodel and present it in the View(viewmodel).
+             */
+
+            _sPC.GetSpecificList("Listone");
+
+            return View();
         }
     }
 }
