@@ -35,17 +35,10 @@ namespace SharePointMVC.Controllers
 
 
         [HttpPost]
-        public ActionResult Login(string email, string password)
+        public ActionResult Login(string email, string password, string url)
         {
-            /*
-            if (email == "")
-            {
-                TempData["LoginFail"] = "Failed to login";
-                return RedirectToAction("LoginIndex");
-            }
-            */
-
-            _sPC = new SharePointConnect(email,password);
+            
+            _sPC = new SharePointConnect(email,password, url);
             if (!_sPC.SaveContext())
             {
                 TempData["LoginFail"] = "Failed to login";
@@ -96,7 +89,7 @@ namespace SharePointMVC.Controllers
                 return RedirectToAction("LoginIndex");
             }
 
-            List<SpList> model = _sPC.GetAllSharePointLists();
+            List<SpListViewModel> model = _sPC.GetAllSharePointLists();
             
             return View(model);
         }

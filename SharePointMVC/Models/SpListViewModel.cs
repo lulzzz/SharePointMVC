@@ -5,7 +5,7 @@ using System.Web;
 
 namespace SharePointMVC.Models
 {
-    public class SpList
+    public class SpListViewModel
     {
         public string Title { get; set; }
         public string Type { get; set; }

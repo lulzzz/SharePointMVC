@@ -10,11 +10,12 @@ namespace SharePointMVC.SPWork
 {
     public class SharePointConnect
     {
-        private string _url = "https://anchory.sharepoint.com/sites/Developersite";
+        private readonly string _url;
         private readonly ClientContext _context;
 
-        public SharePointConnect(string email, string password)
+        public SharePointConnect(string email, string password, string url)
         {
+            _url = url;
             SecureString securePassword = ConvertPasswordToSecureString(password);
             _context = new ClientContext(_url)
             {
@@ -53,9 +54,9 @@ namespace SharePointMVC.SPWork
         }
 
         //TODO: Get all lists and return them.
-        public List<SpList> GetAllSharePointLists()
+        public List<SpListViewModel> GetAllSharePointLists()
         {
-            List<SpList> retList = new List<SpList>();
+            List<SpListViewModel> retList = new List<SpListViewModel>();
 
             var web = _context.Web;
             var lists = _context.Web.Lists;
@@ -68,7 +69,7 @@ namespace SharePointMVC.SPWork
                 if (list.BaseTemplate == 100)
                 {
                     //TODO: Add all lists to an object that contains the title and maybe type?
-                    retList.Add(new SpList
+                    retList.Add(new SpListViewModel
                     {
                         Title = list.Title,
                         Type = list.BaseType.ToString()
