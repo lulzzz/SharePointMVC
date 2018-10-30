@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security;
 using System.Web;
 using SharePointMVC.Models;
+using System.Linq.Expressions;
 
 namespace SharePointMVC.SPWork
 {
@@ -84,28 +85,61 @@ namespace SharePointMVC.SPWork
         {
             var web = _context.Web;
             var list = _context.Web.Lists.GetByTitle(listname);
-            var listValues = list.GetItems(CamlQuery.CreateAllItemsQuery());
-            var user = _context.Web.CurrentUser;
+            FieldCollection fields = list.Fields;
+            _context.Load(fields);
+
+            //var listValues = list.GetItems(CamlQuery.CreateAllItemsQuery());
+
 
             _context.Load(web);
             _context.Load(list, l => l.Fields);
-            _context.Load(listValues, l => l.Include(i => i.FieldValuesAsText));
+            //_context.Load(listValues, l => l.Include(i => i.FieldValuesAsText));
             _context.ExecuteQuery();
 
             ListContentViewModel retList = new ListContentViewModel();
             List<string> stringColumnList = new List<string>();
-
-            //TODO: Get list items and map them.
+            
             foreach (var columTitle in list.Fields)
             {
                 stringColumnList.Add(columTitle.Title);
             }
-
             retList.ColumnTitles = stringColumnList;
-
-
             var x = retList;
 
+
+
+
+            //TODO: Continue here.
+            var columns = new List<string> { "ID" }; // always include the ID field
+            foreach (var f in list.Fields)
+            {
+                // Log.LogMessage( "\t\t{0}: {1} of type {2}", f.Title, f.InternalName, f.FieldTypeKind );
+                if (f.InternalName.StartsWith("_") || f.InternalName.StartsWith("ows")) continue;  // skip these
+                {
+                    columns.Add(f.InternalName);
+                }
+            }
+
+            List<Expression<Func<ListItemCollection, object>>> allIncludes = new List<Expression<Func<ListItemCollection, object>>>();
+            foreach (var c in columns)
+            {
+                allIncludes.Add(items => items.Include(item => item[c]));
+            }
+            ListItemCollection listItems = list.GetItems(CamlQuery.CreateAllItemsQuery());
+            _context.Load(listItems, allIncludes.ToArray());
+            _context.ExecuteQuery();
+            var sd = listItems.ToDictionary(k => k["Title"] as string, v => v.FieldValues);
+            foreach (var i in sd.Keys)
+            {
+                foreach (var c in columns)
+                {
+                    var yyy = c;
+                }
+            }
+
+           
+
+            /*
             foreach (var columnValue in listValues )
             {
                 foreach (var columnName in retList.ColumnTitles)
@@ -114,6 +148,9 @@ namespace SharePointMVC.SPWork
                 }
                 
             }
+            */
+
+
         }
 
         public List<ListOneModel> GetListOneTESTING(string listname)
