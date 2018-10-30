@@ -24,12 +24,19 @@
                 <p>Please enter your email and password</p>
             </div>
             <form id="Login" method="post" action="/SharePoint/Login">
-                
+
                 <div class="form-group">
-                    <select name="url" class="form-control">
+                    <select id="urlDropDown" name="url" class="form-control redUrlSelector">
                         <option class="form-control" value="https://anchory.sharepoint.com/sites/Developersite">Anchory</option>
                         <option class="form-control" value="Example">Example</option>
                     </select>
+                </div>
+
+                <div class="form-group">
+
+                    <!--https://-->
+                    <input type="text" class="form-control" id="inputFreeUrl" placeholder="example.sharepoint.com/sites/Examplename" name="url" onkeyup="urlCheck()">
+
                 </div>
 
                 <div class="form-group">

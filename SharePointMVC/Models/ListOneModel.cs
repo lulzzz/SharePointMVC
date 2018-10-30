@@ -5,11 +5,12 @@ using System.Web;
 
 namespace SharePointMVC.Models
 {
-    public class SpListViewModel
-
+    public class ListOneModel
     {
         public string Title { get; set; }
-        public string Type { get; set; }
-        
+        public string Number { get; set; }
+        public string Texty { get; set; }
+
+
     }
 }

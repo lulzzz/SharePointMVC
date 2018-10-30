@@ -83,15 +83,62 @@ namespace SharePointMVC.SPWork
         public void GetSpecificList(string listname)
         {
             var web = _context.Web;
-            var list = _context.Web.GetList(listname);
+            var list = _context.Web.Lists.GetByTitle(listname);
+            var listValues = list.GetItems(CamlQuery.CreateAllItemsQuery());
+            var user = _context.Web.CurrentUser;
 
             _context.Load(web);
-            _context.Load(list);
+            _context.Load(list, l => l.Fields);
+            _context.Load(listValues, l => l.Include(i => i.FieldValuesAsText));
             _context.ExecuteQuery();
 
-            
-            //TODO: Get list items and map them.
+            ListContentViewModel retList = new ListContentViewModel();
+            List<string> stringColumnList = new List<string>();
 
+            //TODO: Get list items and map them.
+            foreach (var columTitle in list.Fields)
+            {
+                stringColumnList.Add(columTitle.Title);
+            }
+
+            retList.ColumnTitles = stringColumnList;
+
+
+            var x = retList;
+
+            foreach (var columnValue in listValues )
+            {
+                foreach (var columnName in retList.ColumnTitles)
+                {
+                    var y = columnValue[columnName].ToString();
+                }
+                
+            }
+        }
+
+        public List<ListOneModel> GetListOneTESTING(string listname)
+        {
+            var web = _context.Web;
+            var oList = _context.Web.Lists.GetByTitle(listname).GetItems(CamlQuery.CreateAllItemsQuery());
+            _context.Load(web);
+            _context.Load(oList, items => items.Include(
+                item => item["Title"],
+                item => item["Number"],
+                item => item["Texty"]));
+            
+            _context.ExecuteQuery();
+
+            List<ListOneModel> retList = new List<ListOneModel>();
+            foreach (var item in oList)
+            {
+                retList.Add(new ListOneModel
+                {
+                    Title = item["Title"].ToString(),
+                    Number = item["Number"].ToString(),
+                    Texty = item["Title"].ToString()
+                });
+            }
+            return retList;
         }
         
 

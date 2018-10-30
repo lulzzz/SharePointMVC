@@ -38,6 +38,12 @@ namespace SharePointMVC.Controllers
         public ActionResult Login(string email, string password, string url)
         {
 
+            if (!url.Contains("https://"))
+            {
+                url = "https://" + url;
+            }
+            
+
             _sPC = new SharePointConnect(email, password, url);
             if (!_sPC.SaveContext())
             {
@@ -111,6 +117,18 @@ namespace SharePointMVC.Controllers
             _sPC.GetSpecificList("Listone");
 
             return View();
+        }
+
+        public ActionResult ListOneDetails()
+        {
+
+            if (!CheckSession())
+            {
+                return RedirectToAction("LoginIndex");
+            }
+            List<ListOneModel> model = _sPC.GetListOneTESTING("Listone");
+
+            return View(model);
         }
     }
 }
