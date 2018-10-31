@@ -100,7 +100,8 @@ namespace SharePointMVC.Controllers
             return View(model);
         }
 
-        public ActionResult ListDetails()
+        
+        public ActionResult ListDetails(string listName)
         {
 
             if (!CheckSession())
@@ -114,9 +115,9 @@ namespace SharePointMVC.Controllers
              * TODO: 3. Make a button in /SharePointController/Index that calls this method on the server.
              */
 
-            _sPC.GetSpecificList("Listone");
+            var vm = _sPC.GetSpecificList(listName);
 
-            return View();
+            return View(vm);
         }
 
         public ActionResult ListOneDetails()

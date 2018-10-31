@@ -210,6 +210,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\LoginWallpaper.jpg" />
+    <Content Include="Content\Images\rdr2.jpg" />
     <Content Include="Content\LoginIndex.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

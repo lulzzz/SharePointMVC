@@ -1,7 +1,11 @@
 ﻿body#LoginForm {
-    background: url(Images/LoginWallpaper.jpg) no-repeat center center fixed;
-    padding: 10px;
+    background: url(Images/rdr2.jpg) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
+
 
 
 .form-heading {

@@ -7,7 +7,10 @@
 
 @foreach (var item in Model)
 {
-    <p>Title: @item.Title</p>
+    @Html.ActionLink("View", "ListDetails", new { listName = @item.Title })
+    <br/>
+    <span>Title: @item.Title</span>
     <p>Type: @item.Type</p>
     <br />
+
 }

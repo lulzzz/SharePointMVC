@@ -81,77 +81,69 @@ namespace SharePointMVC.SPWork
             return retList;
         }
 
-        public void GetSpecificList(string listname)
+        public List<Dictionary<string,string>> GetSpecificList(string listname)
         {
             var web = _context.Web;
             var list = _context.Web.Lists.GetByTitle(listname);
+
             FieldCollection fields = list.Fields;
             _context.Load(fields);
-
-            //var listValues = list.GetItems(CamlQuery.CreateAllItemsQuery());
-
-
             _context.Load(web);
             _context.Load(list, l => l.Fields);
-            //_context.Load(listValues, l => l.Include(i => i.FieldValuesAsText));
             _context.ExecuteQuery();
-
-            ListContentViewModel retList = new ListContentViewModel();
-            List<string> stringColumnList = new List<string>();
             
-            foreach (var columTitle in list.Fields)
-            {
-                stringColumnList.Add(columTitle.Title);
-            }
-            retList.ColumnTitles = stringColumnList;
-            var x = retList;
-
-
-
-
-            //TODO: Continue here.
-            var columns = new List<string> { "ID" }; // always include the ID field
+            //This gets the column names as they are stored in Sharepoint, for example Title_x20_N.
+            var columns = new List<string>();
+            //This list should store the real names example Title_x20_N will be Title.
+            var columnsNameDisplay = new List<string>();
             foreach (var f in list.Fields)
             {
-                // Log.LogMessage( "\t\t{0}: {1} of type {2}", f.Title, f.InternalName, f.FieldTypeKind );
-                if (f.InternalName.StartsWith("_") || f.InternalName.StartsWith("ows")) continue;  // skip these
+                if (f.FieldTypeKind == FieldType.Text 
+                    || f.FieldTypeKind == FieldType.Number 
+                    || f.FieldTypeKind == FieldType.MaxItems 
+                    || f.FieldTypeKind == FieldType.Currency 
+                    || f.FieldTypeKind == FieldType.DateTime 
+                    || f.FieldTypeKind == FieldType.User
+                    || f.FieldTypeKind == FieldType.Note)
                 {
                     columns.Add(f.InternalName);
-                }
-            }
-
-            List<Expression<Func<ListItemCollection, object>>> allIncludes = new List<Expression<Func<ListItemCollection, object>>>();
-            foreach (var c in columns)
-            {
-                allIncludes.Add(items => items.Include(item => item[c]));
-            }
-            ListItemCollection listItems = list.GetItems(CamlQuery.CreateAllItemsQuery());
-            _context.Load(listItems, allIncludes.ToArray());
-            _context.ExecuteQuery();
-            var sd = listItems.ToDictionary(k => k["Title"] as string, v => v.FieldValues);
-            foreach (var i in sd.Keys)
-            {
-                foreach (var c in columns)
-                {
-                    var yyy = c;
+                    columnsNameDisplay.Add(f.Title);
                 }
             }
 
            
-
-            /*
-            foreach (var columnValue in listValues )
+            
+            List<Expression<Func<ListItemCollection, object>>> allIncludes = new List<Expression<Func<ListItemCollection, object>>>();
+            
+            foreach (var c in columns)
             {
-                foreach (var columnName in retList.ColumnTitles)
-                {
-                    var y = columnValue[columnName].ToString();
-                }
-                
+                allIncludes.Add(items => items.Include(item => item[c]));
             }
-            */
 
+            
+            ListItemCollection listItems = list.GetItems(CamlQuery.CreateAllItemsQuery());
+            _context.Load(listItems, allIncludes.ToArray());
+            _context.ExecuteQuery();
+            
 
+            var doneList = new List<Dictionary<string, string>>();
+
+            foreach (var listItem in listItems)
+            {
+                var dictionary = new Dictionary<string, string>();
+                var i = 0;
+                foreach (var col in columns)
+                {
+                    dictionary.Add(columnsNameDisplay[i], listItem[col] == null ? string.Empty : listItem[col].ToString());
+                    i++;
+                }
+                doneList.Add(dictionary);
+            }
+
+            return doneList;
         }
+
+
 
         public List<ListOneModel> GetListOneTESTING(string listname)
         {

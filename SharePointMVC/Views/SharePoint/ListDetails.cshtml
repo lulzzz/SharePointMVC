@@ -1,7 +1,27 @@
-﻿
+﻿@model IEnumerable<Dictionary<string, string>>
 @{
     ViewBag.Title = "ListDetails";
 }
 
 <h2>ListDetails</h2>
 
+
+@foreach (var item in Model)
+{
+    <hr />
+    foreach (var pair in item)
+    {
+        if (@pair.Value != "" && @pair.Key != "Version" && @pair.Key != "Order" && @pair.Key != "Meta_0")
+        {
+            <br />
+            <span>@pair.Key</span>
+            <br />
+            <span>@pair.Value</span>
+            <br />
+
+        }
+
+    }
+
+
+}
