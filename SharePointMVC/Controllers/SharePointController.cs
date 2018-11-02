@@ -108,14 +108,8 @@ namespace SharePointMVC.Controllers
             {
                 return RedirectToAction("LoginIndex");
             }
-
-            /*
-             * TODO: 1. Change "Listone" to a parameter from ListDetails.
-             * TODO: 2. Store the data from the list in a viewmodel and present it in the View(viewmodel).
-             * TODO: 3. Make a button in /SharePointController/Index that calls this method on the server.
-             */
-
-            var vm = _sPC.GetSpecificList(listName);
+            
+            List<Dictionary<string,string>> vm = _sPC.GetSpecificList(listName);
 
             return View(vm);
         }

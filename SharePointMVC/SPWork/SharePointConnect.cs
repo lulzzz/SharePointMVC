@@ -54,7 +54,7 @@ namespace SharePointMVC.SPWork
                 return web.Title;
         }
 
-        //TODO: Get all lists and return them.
+        
         public List<SpListViewModel> GetAllSharePointLists()
         {
             List<SpListViewModel> retList = new List<SpListViewModel>();
@@ -69,7 +69,7 @@ namespace SharePointMVC.SPWork
             {
                 if (list.BaseTemplate == 100)
                 {
-                    //TODO: Add all lists to an object that contains the title and maybe type?
+                    
                     retList.Add(new SpListViewModel
                     {
                         Title = list.Title,
@@ -132,10 +132,26 @@ namespace SharePointMVC.SPWork
             {
                 var dictionary = new Dictionary<string, string>();
                 var i = 0;
+
+                var x = listItem.ContentType;
+
                 foreach (var col in columns)
                 {
-                    dictionary.Add(columnsNameDisplay[i], listItem[col] == null ? string.Empty : listItem[col].ToString());
-                    i++;
+                    //typeof(Microsoft.SharePoint.Client.FieldUserValue)
+
+                    //TODO: Check is the column is a user, then deliver user as lookupvalue to doneList.
+                    if (i == 100)
+                    {
+                        dictionary.Add(columnsNameDisplay[i], listItem[col] == null ? string.Empty : listItem[col].ToString());
+                        i++;
+                    }
+                    else
+                    {
+                        dictionary.Add(columnsNameDisplay[i], listItem[col] == null ? string.Empty : listItem[col].ToString());
+                        i++;
+                    }
+                    
+                    
                 }
                 doneList.Add(dictionary);
             }
