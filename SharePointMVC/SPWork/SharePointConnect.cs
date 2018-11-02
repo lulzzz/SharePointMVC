@@ -138,8 +138,11 @@ namespace SharePointMVC.SPWork
                 foreach (var col in columns)
                 {
                     //typeof(Microsoft.SharePoint.Client.FieldUserValue)
+                    //var myType = listItem[col].GetType();
 
                     //TODO: Check is the column is a user, then deliver user as lookupvalue to doneList.
+                    //TODO: Try-catch on user otherwise string.
+
                     if (i == 100)
                     {
                         dictionary.Add(columnsNameDisplay[i], listItem[col] == null ? string.Empty : listItem[col].ToString());
