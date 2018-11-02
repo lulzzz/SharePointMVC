@@ -30,7 +30,7 @@ namespace SharePointMVC.SPWork
             _context.Dispose();
         }
 
-        
+
         public bool SaveContext()
         {
             try
@@ -48,13 +48,13 @@ namespace SharePointMVC.SPWork
 
         public string GetWebTitle()
         {
-                var web = _context.Web;
-                _context.Load(web, w => w.Title);
-                _context.ExecuteQuery();
-                return web.Title;
+            var web = _context.Web;
+            _context.Load(web, w => w.Title);
+            _context.ExecuteQuery();
+            return web.Title;
         }
 
-        
+
         public List<SpListViewModel> GetAllSharePointLists()
         {
             List<SpListViewModel> retList = new List<SpListViewModel>();
@@ -69,7 +69,7 @@ namespace SharePointMVC.SPWork
             {
                 if (list.BaseTemplate == 100)
                 {
-                    
+
                     retList.Add(new SpListViewModel
                     {
                         Title = list.Title,
@@ -81,7 +81,7 @@ namespace SharePointMVC.SPWork
             return retList;
         }
 
-        public List<Dictionary<string,string>> GetSpecificList(string listname)
+        public List<Dictionary<string, string>> GetSpecificList(string listname)
         {
             var web = _context.Web;
             var list = _context.Web.Lists.GetByTitle(listname);
@@ -91,18 +91,18 @@ namespace SharePointMVC.SPWork
             _context.Load(web);
             _context.Load(list, l => l.Fields);
             _context.ExecuteQuery();
-            
+
             //This gets the column names as they are stored in Sharepoint, for example Title_x20_N.
             var columns = new List<string>();
             //This list should store the real names example Title_x20_N will be Title.
             var columnsNameDisplay = new List<string>();
             foreach (var f in list.Fields)
             {
-                if (f.FieldTypeKind == FieldType.Text 
-                    || f.FieldTypeKind == FieldType.Number 
-                    || f.FieldTypeKind == FieldType.MaxItems 
-                    || f.FieldTypeKind == FieldType.Currency 
-                    || f.FieldTypeKind == FieldType.DateTime 
+                if (f.FieldTypeKind == FieldType.Text
+                    || f.FieldTypeKind == FieldType.Number
+                    || f.FieldTypeKind == FieldType.MaxItems
+                    || f.FieldTypeKind == FieldType.Currency
+                    || f.FieldTypeKind == FieldType.DateTime
                     || f.FieldTypeKind == FieldType.User
                     || f.FieldTypeKind == FieldType.Note)
                 {
@@ -111,20 +111,20 @@ namespace SharePointMVC.SPWork
                 }
             }
 
-           
-            
+
+
             List<Expression<Func<ListItemCollection, object>>> allIncludes = new List<Expression<Func<ListItemCollection, object>>>();
-            
+
             foreach (var c in columns)
             {
                 allIncludes.Add(items => items.Include(item => item[c]));
             }
 
-            
+
             ListItemCollection listItems = list.GetItems(CamlQuery.CreateAllItemsQuery());
             _context.Load(listItems, allIncludes.ToArray());
             _context.ExecuteQuery();
-            
+
 
             var doneList = new List<Dictionary<string, string>>();
 
@@ -143,18 +143,23 @@ namespace SharePointMVC.SPWork
                     //TODO: Check is the column is a user, then deliver user as lookupvalue to doneList.
                     //TODO: Try-catch on user otherwise string.
 
-                    if (i == 100)
+                    try
                     {
+                        listItem[col] = (Microsoft.SharePoint.Client.FieldUserValue) listItem[col];
                         dictionary.Add(columnsNameDisplay[i], listItem[col] == null ? string.Empty : listItem[col].ToString());
                         i++;
                     }
-                    else
+                    catch (Exception up)
                     {
                         dictionary.Add(columnsNameDisplay[i], listItem[col] == null ? string.Empty : listItem[col].ToString());
                         i++;
                     }
                     
+
                     
+
+
+
                 }
                 doneList.Add(dictionary);
             }
@@ -173,7 +178,7 @@ namespace SharePointMVC.SPWork
                 item => item["Title"],
                 item => item["Number"],
                 item => item["Texty"]));
-            
+
             _context.ExecuteQuery();
 
             List<ListOneModel> retList = new List<ListOneModel>();
@@ -188,7 +193,7 @@ namespace SharePointMVC.SPWork
             }
             return retList;
         }
-        
+
 
         public SecureString ConvertPasswordToSecureString(string password)
         {
