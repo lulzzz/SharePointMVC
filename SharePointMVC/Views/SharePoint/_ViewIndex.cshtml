@@ -1,0 +1,16 @@
+﻿@model IEnumerable<SharePointMVC.Models.SpListViewModel>
+@{
+    ViewBag.Title = "AllLists";
+}
+
+<h2>AllLists</h2>
+
+@foreach (var item in Model)
+{
+    @Html.ActionLink("View", "ListDetails", new { listName = @item.Title })
+    <br/>
+    <span>Title: @item.Title</span>
+    <p>Type: @item.Type</p>
+    <br />
+
+}

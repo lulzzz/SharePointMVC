@@ -35,6 +35,11 @@ namespace SharePointMVC
             bundles.Add(new ScriptBundle("~/LoginScript").Include(
                 "~/Scripts/LoginIndex.js"
                 ));
+
+            //Custom ScriptBundles
+            bundles.Add(new ScriptBundle("~/SharePointScript").Include(
+                "~/Scripts/SharePointIndex.js"
+            ));
         }
     }
 }

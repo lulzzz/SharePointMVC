@@ -8,7 +8,19 @@
 <a href="/SharePoint/WebTitle">
     <button type="button" class="btn btn-success">Get web title name</button>
 </a>
-<a href="/SharePoint/AllLists">
-    <button type="button" class="btn btn-success">Lists</button>
-</a>
 
+@*<a href="/SharePoint/AllLists">
+    <button type="button" class="btn btn-success">Lists</button>
+</a>*@
+
+<button id="allLists" type="button" class="btn btn-success">Lists</button>
+
+<br/>
+
+<div id="allListsContainer">
+
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/SharePointScript")

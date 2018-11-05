@@ -100,7 +100,19 @@ namespace SharePointMVC.Controllers
             return View(model);
         }
 
-        
+        public ActionResult AllListsPartial()
+        {
+            if (!CheckSession())
+            {
+                return RedirectToAction("LoginIndex");
+            }
+
+            List<SpListViewModel> model = _sPC.GetAllSharePointLists();
+
+            return PartialView("_ViewIndex", model);
+        }
+
+
         public ActionResult ListDetails(string listName)
         {
 
