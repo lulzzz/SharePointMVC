@@ -1,22 +1,14 @@
-﻿$(document).ready(function () {
+﻿$("#allLists").on("click", function() {
 
-    console.log("Hello im SharePointIndex.js!!");
-
-});
-
-
-
-$("#allLists").on("click", function() {
-
-    console.log("troll");
+   
     
     $.ajax({
-        url: "/SharePoint/AllListsPartial",
+        url: "/SharePoint/PartialAllLists",
         type: "GET",
         contentType: "application/json; charset=utf-8",
         dataType: 'html',
         success: function (result) {
-            $('#allListsContainer').html(result);
+            $('#partialContentContainer').html(result);
         },
         error: function (error) {
             //Loggade för att se varför jag fick error tidigare
@@ -25,5 +17,22 @@ $("#allLists").on("click", function() {
 
     });
 
+
+});
+
+$("#webTitle").on("click", function() {
+
+    $.ajax({
+        url: "/SharePoint/PartialWebTitle",
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "html",
+        success: function(result) {
+            $("#partialContentContainer").html(result);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
 
 });

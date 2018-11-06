@@ -259,7 +259,8 @@
     <Content Include="Views\SharePoint\AllLists.cshtml" />
     <Content Include="Views\SharePoint\ListDetails.cshtml" />
     <Content Include="Views\SharePoint\ListOneDetails.cshtml" />
-    <Content Include="Views\SharePoint\_ViewIndex.cshtml" />
+    <Content Include="Views\SharePoint\_AllLists.cshtml" />
+    <Content Include="Views\SharePoint\_WebTitle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

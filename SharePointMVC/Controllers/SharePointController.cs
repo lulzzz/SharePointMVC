@@ -88,6 +88,17 @@ namespace SharePointMVC.Controllers
             return View(viewModel);
         }
 
+        public ActionResult PartialWebTitle()
+        {
+            if (!CheckSession())
+            {
+                return RedirectToAction("LoginIndex");
+            }
+
+            WebTitleViewModel viewModel = new WebTitleViewModel {WebTitle = _sPC.GetWebTitle()};
+            return PartialView("_WebTitle", viewModel);
+        }
+
         public ActionResult AllLists()
         {
             if (!CheckSession())
@@ -100,7 +111,7 @@ namespace SharePointMVC.Controllers
             return View(model);
         }
 
-        public ActionResult AllListsPartial()
+        public ActionResult PartialAllLists()
         {
             if (!CheckSession())
             {
@@ -109,7 +120,7 @@ namespace SharePointMVC.Controllers
 
             List<SpListViewModel> model = _sPC.GetAllSharePointLists();
 
-            return PartialView("_ViewIndex", model);
+            return PartialView("_AllLists", model);
         }
 
 
