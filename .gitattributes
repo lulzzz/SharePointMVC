@@ -63,4 +63,4 @@
 #*.RTF   diff=astextplain
 
 SharePointMVC/Scripts/* linguist-vendored=true
-SharePointMVC/Content/bootstrap* linguist-vendored=true
+SharePointMVC/Content/boot* linguist-vendored=true
