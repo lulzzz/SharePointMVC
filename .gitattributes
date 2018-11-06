@@ -63,4 +63,3 @@
 #*.RTF   diff=astextplain
 
 SharePointMVC/Scripts/* linguist-vendored=true
-SharePointMVC/CustomCss/* linguist-vendored=true
