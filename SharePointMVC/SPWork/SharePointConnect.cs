@@ -194,6 +194,52 @@ namespace SharePointMVC.SPWork
             return retList;
         }
 
+        public List<IncidentModel> GetIncidentList(string listname)
+        {
+            var web = _context.Web;
+            var oList = _context.Web.Lists.GetByTitle(listname).GetItems(CamlQuery.CreateAllItemsQuery());
+            _context.Load(web);
+
+            _context.Load(oList, items => items.Include(
+                item => item["Title"],
+                item => item["Reported_x0020_by"],
+                item => item["Date_x0020_reported"],
+                item => item["Department_x0020_occurrence"],
+                item => item["Incident_x0020_date"],
+                item => item["Incident_x0020_closed"],
+                item => item["Type_x0020_of_x0020_error"],
+                item => item["Type_x0020_of_x0020_incident"],
+                item => item["Classification"],
+                item => item["Description_x0020_of_x0020_incid"],
+                item => item["Status"],
+                item => item["Plan_x0020_of_x0020_action"],
+                item => item["Responsible_x0020_to_x0020_solve"]));
+
+            _context.ExecuteQuery();
+
+            List<IncidentModel> retList = new List<IncidentModel>();
+
+            
+
+            foreach (var item in oList)
+            {
+                
+                var userObject = item["Reported_x0020_by"] as FieldUserValue;
+                var doneuser = _context.Web.EnsureUser(userObject.Email);
+                _context.Load(doneuser);
+                
+                
+                retList.Add(new IncidentModel
+                {
+                    Title = item["Title"].ToString(),
+
+                    //TODO: Fix this.
+                    ReportedBy = doneuser.Title
+                });
+            }
+            return retList;
+        }
+
 
         public SecureString ConvertPasswordToSecureString(string password)
         {

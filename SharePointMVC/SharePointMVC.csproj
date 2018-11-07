@@ -197,6 +197,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\IncidentModel.cs" />
     <Compile Include="Models\ListOneModel.cs" />
     <Compile Include="Models\SpListViewModel.cs" />
     <Compile Include="Models\ListContentViewModel.cs" />
@@ -261,6 +262,7 @@
     <Content Include="Views\SharePoint\ListOneDetails.cshtml" />
     <Content Include="Views\SharePoint\_AllLists.cshtml" />
     <Content Include="Views\SharePoint\_WebTitle.cshtml" />
+    <Content Include="Views\SharePoint\IncidentListDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

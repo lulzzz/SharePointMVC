@@ -148,5 +148,18 @@ namespace SharePointMVC.Controllers
 
             return View(model);
         }
+
+        public ActionResult IncidentListDetails()
+        {
+            if (!CheckSession())
+            {
+                return RedirectToAction("LoginIndex");
+            }
+
+            //List<IncidentModel> GET INCIDENT LIST
+            List<IncidentModel> model = _sPC.GetIncidentList("Incident Report");
+
+            return View(model);
+        }
     }
 }
