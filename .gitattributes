@@ -62,4 +62,4 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-SharePointMVC/Scripts/* linguist-vendored=true
+
